@@ -29,7 +29,7 @@ export default function ProfileDataDelete(props) {
       >
         <div className="mt-4 mb-4 ml-4 mr-4">Supprimez votre compte ! </div>
       </button>
-      {isDeleted ? navigate("/login") : null}
+      {isDeleted ? navigate("/") : null}
     </div>
   );
 }

@@ -28,10 +28,6 @@ export default function ProfileDataPutForm(props) {
     const imageFile = imageRef.current;
 
     formData.append("image", imageFile.files[0]);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("email", email);
-    formData.append("password", password);
 
     axios({
       method: "put",
@@ -46,7 +42,7 @@ export default function ProfileDataPutForm(props) {
       setImage("");
       props.setIsClicked(false);
       alert("Modifications éfféctuées");
-      navigate("/");
+      navigate("/accueil");
     });
   };
 

@@ -18,7 +18,6 @@ exports.signup = (req, res, next) => {
         lastName: req.body.lastName,
         email: req.body.email,
         image: req.body.image,
-        admin: req.body.admin,
         password: hash,
         token: null,
       });
@@ -104,47 +103,40 @@ exports.updateUser = (req, res, next) => {
     } else if (user.image != null) {
       const filename = user.image.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
-        bcrypt
-          .hash(req.body.password, 10)
-          .then(hash => {
-            db.User.update(
-              {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                image: `${req.protocol}://${req.get("host")}/images/${
-                  req.file.filename
-                }`,
-                password: hash,
-              },
+        bcrypt;
+        db.User.update(
+          {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            image: `${req.protocol}://${req.get("host")}/images/${
+              req.file.filename
+            }`,
+            password: user.password,
+          },
 
-              { where: { id: req.params.id } }
-            )
-              .then(() => res.status(200).json({ message: "User modifié !" }))
-              .catch(error => res.status(400).json({ error }));
-          })
-          .catch(error => res.status(500).json({ error }));
+          { where: { id: req.params.id } }
+        )
+          .then(() => res.status(200).json({ message: "User modifié !" }))
+          .catch(error => res.status(400).json({ error }));
       });
     } else {
-      bcrypt
-        .hash(req.body.password, 10)
-        .then(hash => {
-          db.User.update(
-            {
-              firstName: req.body.firstName,
-              lastName: req.body.lastName,
-              email: req.body.email,
-              image: `${req.protocol}://${req.get("host")}/images/${
-                req.file.filename
-              }`,
-              password: hash,
-            },
+      db.User.update(
+        {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          image: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+          }`,
+          password: user.password,
+        },
 
-            { where: { id: req.params.id } }
-          )
-            .then(() => res.status(200).json({ message: "User modifié !" }))
-            .catch(error => res.status(400).json({ error }));
-        })
+        { where: { id: req.params.id } }
+      )
+        .then(() => res.status(200).json({ message: "User modifié !" }))
+        .catch(error => res.status(400).json({ error }))
+
         .catch(error => res.status(500).json({ error }));
     }
   });
@@ -152,7 +144,7 @@ exports.updateUser = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
   db.User.findOne({ where: { id: req.params.id } }).then(user => {
-    if (user.id !== req.auth.userId) {
+    if (user.userId !== req.auth.userId) {
       res.status(401).json({ message: "Non autorisé" });
     } else if (user.image !== null) {
       const filename = user.image.split("/images/")[1];

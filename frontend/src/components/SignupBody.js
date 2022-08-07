@@ -55,7 +55,7 @@ export default function SignupBody() {
     const passwordRegExp = new RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,}$");
     if (!passwordRegExp.test(password)) {
       setValidPassword(false);
-      setErrPasswordMessage("Mot de passe incorect");
+      setErrPasswordMessage("Mot de passe incorrect");
     } else {
       setValidPassword(true);
       setErrPasswordMessage("");
@@ -66,7 +66,7 @@ export default function SignupBody() {
     );
     if (!firstNameRegExp.test(firstName)) {
       setValidFirstName(false);
-      setErrFirstNameMessage("Prenom incorect");
+      setErrFirstNameMessage("Prenom incorrect");
     } else {
       setValidFirstName(true);
       setErrFirstNameMessage("");
@@ -77,7 +77,7 @@ export default function SignupBody() {
     );
     if (!lastNameRegExp.test(lastName)) {
       setValidLastName(false);
-      setErrLastNameMessage("Nom incorect");
+      setErrLastNameMessage("Nom incorrect");
     } else {
       setValidLastName(true);
       setErrLastNameMessage("");

@@ -26,13 +26,22 @@ db.Post.hasMany(db.Comment);
 db.Comment.belongsTo(db.User);
 db.Comment.belongsTo(db.Post);
 
+sequelize.authenticate().then(
+  function (err) {
+    console.log("Connection has been established successfully.");
+  },
+  function (err) {
+    console.log("Unable to connect to the database:", err);
+  }
+);
+
 sequelize
   .sync({
     logging: console.log,
   })
   .then(
     function (err) {
-      console.log("Vous etes connecté à la base de données", err);
+      console.log("Vous etes connecté à la base de données");
     },
     function (err) {
       console.log("Impossible de se connecter à la base de donées", err);
